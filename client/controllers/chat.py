@@ -8,7 +8,8 @@ import socket
 import threading
 import shutil
 import time
-import transferencia
+import os.path
+
 
 class ChatWindow(QWidget, ChatForm):
 
@@ -67,12 +68,6 @@ class ChatWindow(QWidget, ChatForm):
         self.messageLineEdit.clear()
 
 
-    # def select_file(self):
-    #     # capturamos el path del archivo con la siguiente función
-    #     file_path = QFileDialog.getOpenFileName()[0]
-    #     self.messageLineEdit.setText(file_path)
-
-
     def send_images(self):
         # capturamos el path del archivo
         file_path = QFileDialog.getOpenFileName()[0]
@@ -84,12 +79,20 @@ class ChatWindow(QWidget, ChatForm):
         # (en este caso, la ruta del archivo)
         imgMessage = self.messageLineEdit.text()
 
-        # le damos formato a nuestro archivo a copiar
-        timestr = time.strftime("%Y%m%d-%H%M%S")
-        filename = self.username + "-sent-" + timestr
-
-        shutil.copy(imgMessage, "fileSent")
+        # le damos formato a nuestro archivo a copiar 
+        # para eso haremos lo siguiente:
+        #   obtenemos la extención del archivo
+        name, ext = os.path.splitext(imgMessage)
         
+        # obtenemos la fecha de cuando se envio
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+
+        # concatenamos nuestros valores para que cada archivo enviado tenga un formato
+        filename = self.username + "-sent-" + timestr + ext
+        # asignamos una variable con la ruta donde se van a guardar los archivos
+        new_path = "client/filesSent/" + filename
+
+        shutil.copy2(imgMessage, new_path)        
 
         imgMessage = f"{self.username}: {imgMessage}"
         self.client.send(imgMessage.encode('utf-8'))

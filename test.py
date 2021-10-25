@@ -1,8 +1,20 @@
+from os import name
 import time 
+import os.path
+import shutil
 
 timestr = time.strftime("%Y%m%d-%H%M%S")
 username = 'juan'
 
-filename = username + "-sent-" + timestr
+imgMessage = 'venom.jpg'
+name, ext = os.path.splitext(imgMessage)
+print(ext)
 
-print(filename)
+
+filename = username + "-sent-" + timestr + ext
+
+new_path = ".idea/inspectionProfiles/"+ filename
+# shutil.copy2(imgMessage, f"fileSent/{filename}")
+shutil.copy2(imgMessage, new_path)
+
+# print(f"fileSent/{filename}")
