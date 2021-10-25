@@ -1,4 +1,6 @@
-from PySide2.QtWidgets import QWidget, QFileDialog
+from PySide2 import QtCore
+from PySide2.QtGui import QPixmap
+from PySide2.QtWidgets import QLabel, QWidget, QFileDialog
 from PySide2.QtCore import Qt
 
 from views.chat import ChatForm
@@ -94,9 +96,20 @@ class ChatWindow(QWidget, ChatForm):
 
         shutil.copy2(imgMessage, new_path)        
 
-        imgMessage = f"{self.username}: {imgMessage}"
+        img = self.load_img(new_path)
+
+        imgMessage = f"{self.username}: {img}"
         self.client.send(imgMessage.encode('utf-8'))
         self.chatTextEdit.append(imgMessage)
         self.chatTextEdit.setAlignment(Qt.AlignRight)
         self.messageLineEdit.clear()
 
+
+    def load_img(self, path):
+        # self.img = QPixmap(path).scaledToWidth(100)
+        # self.setPixmap(self.img)
+
+        label = QLabel(self)
+        pixmap = QPixmap(path)
+        label.setPixmap(pixmap)
+        self.resize(pixmap.width(), pixmap.height())

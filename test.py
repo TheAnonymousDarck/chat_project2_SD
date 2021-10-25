@@ -18,3 +18,14 @@ new_path = ".idea/inspectionProfiles/"+ filename
 shutil.copy2(imgMessage, new_path)
 
 # print(f"fileSent/{filename}")
+
+# Load Pic
+# picture = QPixmap("background.png")
+
+# # set up the label widget to display the pic
+# label = QLabel(window)
+# label.setPixmap(picture)
+# label.setGeometry(QtCore.QRect(10, 40, picture.width(), picture.height()))
+
+# embiggen the window to correctly fit the pic
+# window.resize(picture.width()+20, picture.height()+100)
